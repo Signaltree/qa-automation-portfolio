@@ -50,6 +50,9 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
+# Allure CLI downloads (auto-downloaded by allure-maven plugin)
+.allure/
+
 # Old root AI files (moved to .opencode/)
 /AGENTS.md
 /CONTEXT.md
