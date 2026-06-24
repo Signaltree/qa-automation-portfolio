@@ -1,0 +1,46 @@
+services:
+  selenium-hub:
+    image: selenium/hub:4.27.0
+    container_name: selenium-hub
+    ports:
+      - "4442:4442"
+      - "4443:4443"
+      - "4444:4444"
+
+  chrome-node:
+    image: selenium/node-chrome:4.27.0
+    container_name: selenium-chrome
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+
+  firefox-node:
+    image: selenium/node-firefox:4.27.0
+    container_name: selenium-firefox
+    shm_size: 2gb
+    depends_on:
+      - selenium-hub
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+      - SE_NODE_MAX_SESSIONS=4
+
+  bdd-tests:
+    image: maven:3.9-eclipse-temurin-21
+    container_name: bdd-tests
+    depends_on:
+      - selenium-hub
+      - chrome-node
+      - firefox-node
+    environment:
+      - SELENIUM_REMOTE_URL=http://selenium-hub:4444/wd/hub
+    working_dir: /app/bdd-cucumber
+    volumes:
+      - ./:/app
+    command: mvn test -Dselenium.remote.url=http://selenium-hub:4444/wd/hub

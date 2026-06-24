@@ -1,8 +1,9 @@
 # QA Automation Portfolio / Portafolio de Automatización QA
 
-[![Playwright](https://img.shields.io/badge/Playwright-34%20tests-45ba4b?logo=playwright)](playwright/)
+[![Playwright](https://img.shields.io/badge/Playwright-45%20tests-45ba4b?logo=playwright)](playwright/)
 [![Karate](https://img.shields.io/badge/Karate-67%20tests-000?logo=java)](karate/)
 [![Gatling](https://img.shields.io/badge/Gatling-Load%20testing-FFCB28?logo=scala)](karate/)
+[![REST Assured](https://img.shields.io/badge/REST%20Assured-18%20tests-8A2BE2?logo=java)](rest-assured/)
 [![Cucumber](https://img.shields.io/badge/Cucumber-BDD-23D96C?logo=cucumber)](bdd-cucumber/)
 [![Security](https://img.shields.io/badge/Security-OWASP%20%2B%20Ley%2021.663-8B0000)](playwright/tests/security/)
 
@@ -16,9 +17,10 @@
 
 | Framework | Language | Tests | Target | Status |
 |-----------|----------|-------|--------|--------|
-| **Playwright** | TypeScript | 34 (UI + API + Visual + Security) | SauceDemo | ✅ All passing |
+| **Playwright** | TypeScript | 45 (UI + API + Visual + Security) | SauceDemo | ✅ All passing |
 | **Karate** | Java | 67 API + Gatling load | JSONPlaceholder | ✅ All passing |
-| **Cucumber BDD** | Java | *Coming soon* | — | 🚧 In progress |
+| **REST Assured** | Java | 18 API contract | JSONPlaceholder | ✅ All passing |
+| **Cucumber BDD** | Java | 12 Gherkin + Selenium | SauceDemo | ✅ All passing |
 
 ---
 
@@ -39,9 +41,21 @@
 - **Load testing**: Gatling 3.9.5 simulation (rampUsers, constantUsersPerSec)
 - **60+ security payloads**: Comprehensive injection payload dataset
 
-### 🥒 Cucumber BDD (Coming Soon)
-- Gherkin feature files + Serenity BDD reports
-- Living documentation with scenario overviews
+### 🧪 [REST Assured — API Contract Testing](rest-assured/)
+- **18 tests**: CRUD, JSON Schema validation, POJO serialization
+- **Hamcrest matchers**: `every`, `hasItem`, `containsString`, `notNullValue`
+- **Same API as Karate** (JSONPlaceholder) — direct framework comparison
+- **Jackson POJOs**: Post, User + nested Address, Geo, Company
+
+### 🥒 [Cucumber BDD — Selenium WebDriver](bdd-cucumber/)
+- **12 Gherkin scenarios**: login, inventory, cart, checkout on SauceDemo
+- **Selenium 4 + WebDriverManager**: ChromeDriver auto-management
+- **Docker-ready**: Remote WebDriver via `-Dselenium.remote.url`
+
+### 🐳 Docker + Selenium Grid
+- `compose.yaml` spins up Hub + Chrome + Firefox nodes
+- BDD tests can run inside container against the Grid
+- `docker compose up` → `mvn test -f bdd-cucumber/pom.xml -Dselenium.remote.url=http://localhost:4444/wd/hub`
 
 ### 🤖 [AI-Assisted Development](.opencode/)
 This entire project was built with **OpenCode** — an open-source AI coding agent — using **24 specialized skills** that collaborate like a QA council: architecture review, security auditing, performance review, testing standards, and more.
@@ -53,11 +67,12 @@ This entire project was built with **OpenCode** — an open-source AI coding age
 | Area | Technologies |
 |------|--------------|
 | **UI Testing** | Playwright, TypeScript, POM |
-| **API Testing** | Karate (Cucumber-based), REST Assured (planned) |
+| **API Testing** | Karate (Cucumber-based), REST Assured (Hamcrest) |
 | **Load Testing** | Gatling 3.9.5, Scala 2.13.15 |
 | **Security** | OWASP ZAP-style scanning, Ley 21.663 compliance |
-| **BDD** | Cucumber, Serenity (planned) |
-| **CI/CD** | GitHub Actions (matrix builds) |
+| **BDD** | Cucumber 7, Selenium 4, Gherkin |
+| **CI/CD** | GitHub Actions (matrix builds + 4 workflows) |
+| **Containerization** | Docker Compose, Selenium Grid |
 | **AI Assistant** | OpenCode with 24 specialized skills |
 | **Languages** | TypeScript, Java 21, Scala, Gherkin |
 
@@ -85,11 +100,13 @@ mvn gatling:test -Pload-test
 
 ```
 qa-automation-portfolio/
-├── playwright/          # 34 tests — UI, API interception, Visual, Security
+├── playwright/          # 45 tests — UI, API interception, Visual, Security
 ├── karate/              # 67 API tests + Gatling load simulation
-├── bdd-cucumber/        # Cucumber BDD (coming soon)
+├── rest-assured/        # 18 API contract tests
+├── bdd-cucumber/        # 12 Cucumber BDD + Selenium scenarios
 ├── docs/                # Architecture & CI/CD documentation
-├── .github/workflows/   # GitHub Actions CI/CD pipelines
+├── .github/workflows/   # 3 CI/CD pipelines (Playwright + Java + Docker)
+├── compose.yaml         # Selenium Grid with Hub + Chrome + Firefox
 ├── .opencode/           # OpenCode AI skills & configuration
 └── README.md            # You are here 📍
 ```
@@ -100,13 +117,15 @@ qa-automation-portfolio/
 
 | Suite | Count | Status |
 |-------|-------|--------|
-| Playwright UI | ~20 | ✅ |
-| Playwright Security | 11 (×5 browsers) | ✅ |
+| Playwright UI | ~25 | ✅ |
+| Playwright Security | 11 (×2 browsers) | ✅ |
 | Playwright Visual | ~5 | ✅ |
-| Playwright API | ~5 | ✅ |
+| Playwright API | ~4 | ✅ |
 | Karate API | 43 REST + 14 Security + 5 CSIRT + 6 Load | ✅ |
 | Gatling Load | 6 scenarios | ✅ |
-| **Total** | **~100+** | ✅ |
+| REST Assured | 18 (CRUD + Schema + POJO) | ✅ |
+| Cucumber BDD | 12 (Gherkin + Selenium) | ✅ |
+| **Total** | **~135+** | ✅ |
 
 Detailed results: [TEST-RESULTS.md](TEST-RESULTS.md)
 
