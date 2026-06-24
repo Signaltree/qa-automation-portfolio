@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QA Automation Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter Tight',-apple-system,sans-serif;background:#0a0a0a;color:#fff;overflow-x:hidden;line-height:1.5}
+::selection{background:#4f46e5;color:#fff}
+
+/* ─── Hero ─── */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0;background:linear-gradient(135deg,#0a0a0a 0%,#1a1a2e 25%,#16213e 50%,#0f3460 75%,#0a0a0a 100%);background-size:400% 400%;animation:gradientShift 15s ease infinite}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.hero-overlay{position:absolute;inset:0;z-index:1;background:radial-gradient(ellipse at 30% 50%,rgba(79,70,229,0.15) 0%,transparent 60%),radial-gradient(ellipse at 70% 20%,rgba(236,72,153,0.1) 0%,transparent 50%)}
+.hero-content{position:relative;z-index:2;padding:2rem;max-width:1200px;margin:0 auto;width:100%}
+.hero-tag{font-size:.75rem;text-transform:uppercase;letter-spacing:.3em;color:rgba(255,255,255,0.4);margin-bottom:2rem;font-weight:500}
+.hero-title{font-size:clamp(2.5rem,8vw,7rem);font-weight:800;line-height:1.05;letter-spacing:-.03em}
+.hero-title .line{display:block}
+.hero-title .line:nth-child(2){padding-left:2rem}
+.hero-title .line:nth-child(3){padding-left:4rem}
+.hero-title .accent{background:linear-gradient(135deg,#818cf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{max-width:480px;margin-top:2.5rem;font-size:1.1rem;color:rgba(255,255,255,0.5);font-weight:400;line-height:1.7}
+.hero-cta{display:inline-flex;align-items:center;gap:.75rem;margin-top:2.5rem;padding:.875rem 2rem;border-radius:100px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;text-decoration:none;font-size:.875rem;font-weight:500;transition:all .3s;backdrop-filter:blur(12px)}
+.hero-cta:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.2);transform:translateY(-2px)}
+.hero-cta .arrow{transition:transform .3s}
+.hero-cta:hover .arrow{transform:translateX(4px)}
+
+/* ─── Particles ─── */
+.particles{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.particle{position:absolute;width:80px;height:80px;border-radius:16px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:.625rem;text-transform:uppercase;letter-spacing:.05em;color:rgba(255,255,255,0.3);backdrop-filter:blur(4px);animation:float 20s infinite linear}
+.particle:nth-child(1){top:15%;left:5%;width:100px;height:100px;animation-duration:25s;animation-delay:-2s}
+.particle:nth-child(2){top:60%;left:8%;width:70px;height:70px;animation-duration:18s;animation-delay:-5s}
+.particle:nth-child(3){top:25%;right:10%;width:90px;height:90px;animation-duration:22s;animation-delay:-8s}
+.particle:nth-child(4){top:70%;right:5%;width:60px;height:60px;animation-duration:16s;animation-delay:-3s}
+.particle:nth-child(5){top:45%;left:50%;width:110px;height:110px;animation-duration:28s;animation-delay:-12s}
+.particle:nth-child(6){top:10%;left:40%;width:50px;height:50px;animation-duration:14s;animation-delay:-7s}
+.particle svg{width:32px;height:32px;opacity:.4}
+.particle .count{font-size:1.5rem;font-weight:700;color:rgba(255,255,255,0.15)}
+@keyframes float{0%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(30px,-40px) rotate(5deg)}50%{transform:translate(-20px,-80px) rotate(-3deg)}75%{transform:translate(-50px,-30px) rotate(4deg)}100%{transform:translate(0,0) rotate(0deg)}}
+
+/* ─── Nav ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 2rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06)}
+nav .logo{font-size:.875rem;font-weight:600;letter-spacing:-.02em;color:#fff;text-decoration:none}
+nav .logo span{color:rgba(255,255,255,0.35)}
+nav .links{display:flex;gap:2rem;list-style:none}
+nav .links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:.8125rem;font-weight:500;transition:color .2s}
+nav .links a:hover{color:#fff}
+
+/* ─── Sections ─── */
+section{padding:6rem 2rem}
+.section-inner{max-width:1100px;margin:0 auto}
+.section-tag{font-size:.6875rem;text-transform:uppercase;letter-spacing:.25em;color:rgba(255,255,255,0.3);margin-bottom:.75rem;font-weight:500}
+.section-title{font-size:clamp(1.75rem,4vw,3rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem}
+.section-desc{color:rgba(255,255,255,0.45);max-width:600px;font-size:1rem;line-height:1.7;margin-bottom:3rem}
+
+/* ─── Framework Grid ─── */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.25rem}
+.card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2rem;transition:all .4s;position:relative;overflow:hidden}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--accent,rgba(255,255,255,0.2)),transparent);opacity:0;transition:opacity .4s}
+.card:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.14);transform:translateY(-4px)}
+.card:hover::before{opacity:1}
+.card-icon{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:1.25rem;margin-bottom:1.25rem}
+.card-icon.pw{background:rgba(69,186,75,0.12);color:#45ba4b}
+.card-icon.kt{background:rgba(255,255,255,0.08);color:#fff}
+.card-icon.ra{background:rgba(138,43,226,0.12);color:#8a2be2}
+.card-icon.bd{background:rgba(35,217,108,0.12);color:#23d96c}
+.card h3{font-size:1.125rem;font-weight:600;margin-bottom:.375rem}
+.card .tech{font-size:.75rem;color:rgba(255,255,255,0.35);margin-bottom:1rem}
+.card .stat{display:flex;align-items:center;gap:.5rem;font-size:.875rem;color:rgba(255,255,255,0.6);margin-bottom:.5rem}
+.card .stat strong{color:#fff;font-weight:600}
+.card .badge{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .75rem;border-radius:100px;font-size:.6875rem;font-weight:500;background:rgba(69,186,75,0.12);color:#45ba4b;margin-top:.75rem}
+.card .features{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.375rem}
+.card .features span{padding:.1875rem .625rem;border-radius:6px;background:rgba(255,255,255,0.04);font-size:.6875rem;color:rgba(255,255,255,0.4)}
+
+/* ─── Stats Row ─── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2rem;padding:4rem 0;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);margin-bottom:4rem}
+.stat-item{text-align:center}
+.stat-item .num{font-size:2.5rem;font-weight:800;letter-spacing:-.03em;background:linear-gradient(135deg,#818cf8,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.stat-item .label{font-size:.75rem;color:rgba(255,255,255,0.35);margin-top:.25rem;text-transform:uppercase;letter-spacing:.1em}
+
+/* ─── Footer ─── */
+footer{padding:3rem 2rem;text-align:center;border-top:1px solid rgba(255,255,255,0.06)}
+footer p{font-size:.8125rem;color:rgba(255,255,255,0.25)}
+footer a{color:rgba(255,255,255,0.4);text-decoration:none;transition:color .2s}
+footer a:hover{color:#fff}
+
+/* ─── Responsive ─── */
+@media(max-width:768px){
+  nav .links{display:none}
+  .hero-title .line:nth-child(2){padding-left:1rem}
+  .hero-title .line:nth-child(3){padding-left:2rem}
+  .particle{display:none}
+  .section-title{font-size:1.5rem}
+  .stats{grid-template-columns:repeat(2,1fr);gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="logo">QA <span>Portfolio</span></a>
+  <ul class="links">
+    <li><a href="#frameworks">Frameworks</a></li>
+    <li><a href="#results">Results</a></li>
+    <li><a href="https://github.com/Signaltree/qa-automation-portfolio" target="_blank">GitHub</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="particles">
+    <div class="particle"><span class="count">45</span></div>
+    <div class="particle"><span class="count">67</span></div>
+    <div class="particle"><span class="count">18</span></div>
+    <div class="particle"><span class="count">12</span></div>
+    <div class="particle"><span class="count">135+</span></div>
+    <div class="particle"><span class="count">24</span></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-tag">Multi-Framework · 2026</div>
+    <h1 class="hero-title">
+      <span class="line">Automation</span>
+      <span class="line">Testing</span>
+      <span class="line"><span class="accent">Portfolio</span></span>
+    </h1>
+    <p class="hero-sub">
+      Four frameworks. Two languages. One mission: prove that quality 
+      engineering is more than finding bugs — it's building confidence.
+    </p>
+    <a href="#frameworks" class="hero-cta">
+      Explore Frameworks <span class="arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<section id="results">
+  <div class="section-inner">
+    <div class="stats">
+      <div class="stat-item">
+        <div class="num">135+</div>
+        <div class="label">Total Tests</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">4</div>
+        <div class="label">Frameworks</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">2</div>
+        <div class="label">Languages</div>
+      </div>
+      <div class="stat-item">
+        <div class="num">100%</div>
+        <div class="label">Passing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="frameworks">
+  <div class="section-inner">
+    <div class="section-tag">Tech Stack</div>
+    <h2 class="section-title">Four layers of quality</h2>
+    <p class="section-desc">
+      From browser automation to API contracts to load testing — each 
+      framework covers a different angle of the quality spectrum.
+    </p>
+    <div class="grid">
+      <div class="card" style="--accent:#45ba4b">
+        <div class="card-icon pw">🎭</div>
+        <h3>Playwright</h3>
+        <div class="tech">TypeScript · SauceDemo</div>
+        <div class="stat"><strong>45</strong> tests</div>
+        <div class="stat" style="color:rgba(255,255,255,0.35)">UI · API Interception · Visual · Security</div>
+        <div class="features">
+          <span>POM</span><span>Cross-browser</span><span>CI/CD</span>
+          <span>Mobile</span><span>Ley 21.663</span>
+        </div>
+        <div class="badge">✅ 100% passing</div>
+      </div>
+      <div class="card" style="--accent:#fff">
+        <div class="card-icon kt">🥋</div>
+        <h3>Karate</h3>
+        <div class="tech">Java · JSONPlaceholder</div>
+        <div class="stat"><strong>67</strong> tests</div>
+        <div class="stat" style="color:rgba(255,255,255,0.35)">API · Security (OWASP) · Load (Gatling)</div>
+        <div class="features">
+          <span>CRUD</span><span>Schema</span><span>Gatling</span>
+          <span>OWASP</span><span>CSIRT</span>
+        </div>
+        <div class="badge">✅ 100% passing</div>
+      </div>
+      <div class="card" style="--accent:#8a2be2">
+        <div class="card-icon ra">🧪</div>
+        <h3>REST Assured</h3>
+        <div class="tech">Java · JSONPlaceholder</div>
+        <div class="stat"><strong>18</strong> tests</div>
+        <div class="stat" style="color:rgba(255,255,255,0.35)">API Contracts · JSON Schema · Hamcrest</div>
+        <div class="features">
+          <span>POJO</span><span>Jackson</span><span>Schema</span>
+          <span>Hamcrest</span>
+        </div>
+        <div class="badge">✅ 100% passing</div>
+      </div>
+      <div class="card" style="--accent:#23d96c">
+        <div class="card-icon bd">🥒</div>
+        <h3>Cucumber BDD</h3>
+        <div class="tech">Java · Selenium · SauceDemo</div>
+        <div class="stat"><strong>12</strong> scenarios</div>
+        <div class="stat" style="color:rgba(255,255,255,0.35)">Gherkin · Selenium Grid · Docker</div>
+        <div class="features">
+          <span>Gherkin</span><span>WebDriver</span><span>Grid</span>
+          <span>Remote</span>
+        </div>
+        <div class="badge">✅ 100% passing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="section-inner">
+    <div class="section-tag">Ecosystem</div>
+    <h2 class="section-title">Built with AI</h2>
+    <p class="section-desc">
+      This portfolio was developed with OpenCode — an open-source AI coding 
+      agent — using 24 specialized skills that collaborate like a QA council.
+    </p>
+    <div class="card" style="max-width:100%;--accent:#6366f1">
+      <div class="card-icon" style="background:rgba(99,102,241,0.12);color:#818cf8">🤖</div>
+      <h3>OpenCode Skills Ecosystem</h3>
+      <div style="color:rgba(255,255,255,0.45);font-size:.875rem;margin-bottom:1rem">
+        Security review · Architecture · Code quality · Performance · Testing standards
+      </div>
+      <div class="features" style="margin-top:.5rem">
+        <span>24 skills</span><span>5 categories</span><span>AI-assisted</span>
+        <span>Test-driven</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>
+    Built with <a href="https://opencode.ai" target="_blank">OpenCode</a> · 
+    View on <a href="https://github.com/Signaltree/qa-automation-portfolio" target="_blank">GitHub</a> · 
+    <a href="https://wolverineworldwide.com/brands" target="_blank">Design inspiration</a>
+  </p>
+</footer>
+
+</body>
+</html>

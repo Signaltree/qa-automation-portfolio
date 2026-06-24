@@ -53,6 +53,9 @@ buildNumber.properties
 # Allure CLI downloads (auto-downloaded by allure-maven plugin)
 .allure/
 
+# Landing page (separate repo — see landing/README.md)
+/landing/
+
 # Old root AI files (moved to .opencode/)
 /AGENTS.md
 /CONTEXT.md
