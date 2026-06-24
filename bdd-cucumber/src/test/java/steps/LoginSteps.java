@@ -30,7 +30,9 @@ public class LoginSteps {
 
     @When("I log in with username {string} and password {string}")
     public void iLogInWithUsernameAndPassword(String username, String password) {
-        loginPage.loginAs(username, password);
+        var user = username.equals("EMPTY") ? "" : username;
+        var pass = password.equals("EMPTY") ? "" : password;
+        loginPage.loginAs(user, pass);
     }
 
     @Then("I should see the inventory page")
@@ -127,6 +129,7 @@ public class LoginSteps {
 
     @When("I proceed to checkout")
     public void iProceedToCheckout() {
+        inventoryPage.goToCart();
         var cartPage = new CartPage(driver);
         cartPage.proceedToCheckout();
     }

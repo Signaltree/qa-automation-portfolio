@@ -19,7 +19,7 @@ public class InventoryPage {
     private static final By ITEM_IMAGES = By.cssSelector(".inventory_item_img");
     private static final By CART_BADGE = By.cssSelector(".shopping_cart_badge");
     private static final By CART_LINK = By.cssSelector(".shopping_cart_link");
-    private static final By SORT_SELECT = By.cssSelector("[data-test='product_sort_container']");
+    private static final By SORT_SELECT = By.cssSelector(".product_sort_container");
 
     public InventoryPage(WebDriver driver) {
         this.driver = driver;

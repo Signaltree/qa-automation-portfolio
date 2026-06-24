@@ -7,33 +7,40 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
-import org.opentest4j.TestAbortedException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Hooks {
     private static WebDriver driver;
-    private static final Boolean CHROME_AVAILABLE = checkChrome();
+    private static final String CHROME_PATH = findChromeBinary();
 
-    private static boolean checkChrome() {
-        try {
-            var process = new ProcessBuilder("which", "google-chrome", "chromium", "chromium-browser")
-                    .redirectErrorStream(true)
-                    .start();
-            int exitCode = process.waitFor();
-            return exitCode == 0;
-        } catch (Exception e) {
-            return false;
+    private static String findChromeBinary() {
+        var candidates = new String[]{
+                "/home/signaltree/.cache/ms-playwright/chromium-1228/chrome-linux64/chrome",
+                "/usr/bin/google-chrome",
+                "/usr/bin/google-chrome-stable",
+                "/usr/bin/chromium",
+                "/usr/bin/chromium-browser"
+        };
+        for (String path : candidates) {
+            if (Files.exists(Paths.get(path))) {
+                return path;
+            }
         }
+        return null;
     }
 
     @Before
     public void setUp() {
-        if (!CHROME_AVAILABLE) {
-            throw new TestAbortedException("Chrome binary not found — skipping browser tests");
+        if (CHROME_PATH == null) {
+            throw new RuntimeException("No Chrome binary found — install Chrome or set CHROME_BIN");
         }
 
         if (driver == null) {
-            WebDriverManager.chromedriver().setup();
+            WebDriverManager.chromedriver().browserVersion("149").setup();
             var options = new ChromeOptions();
+            options.setBinary(CHROME_PATH);
             options.addArguments("--headless=new");
             options.addArguments("--no-sandbox");
             options.addArguments("--disable-dev-shm-usage");

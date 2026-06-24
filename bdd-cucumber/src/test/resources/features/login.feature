@@ -29,7 +29,7 @@ Feature: SauceDemo Login
       | username        | password        |
       | invalid_user    | wrong_password  |
       | standard_user   | wrong_password  |
-      | ""              | ""              |
+      | EMPTY           | EMPTY           |
 
   @inventory @sorting
   Scenario: Products can be sorted by price (low to high)
