@@ -1,0 +1,39 @@
+{
+  "name": "qa-automation-portfolio",
+  "version": "1.0.0",
+  "description": "QA Automation Portfolio — Playwright, Selenium, BDD, Karate, REST Assured",
+  "scripts": {
+    "test": "npx playwright test",
+    "test:ui": "npx playwright test --ui",
+    "test:headed": "npx playwright test --headed",
+    "test:debug": "npx playwright test --debug",
+    "test:chromium": "npx playwright test --project=chromium",
+    "test:firefox": "npx playwright test --project=firefox",
+    "test:webkit": "npx playwright test --project=webkit",
+    "test:mobile": "npx playwright test --project=mobile-chrome --project=mobile-safari",
+    "test:api": "npx playwright test tests/api",
+    "test:visual": "npx playwright test tests/visual",
+    "test:update-snapshots": "npx playwright test --update-snapshots",
+    "report": "npx playwright show-report",
+    "codegen": "npx playwright codegen",
+    "lint": "npx tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Signaltree/qa-automation-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Signaltree/qa-automation-portfolio/issues"
+  },
+  "homepage": "https://github.com/Signaltree/qa-automation-portfolio#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.61.1",
+    "@types/node": "^26.0.0",
+    "playwright": "^1.61.1",
+    "typescript": "^6.0.3"
+  }
+}
