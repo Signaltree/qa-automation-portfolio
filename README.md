@@ -134,38 +134,99 @@ npm run report           # Abrir reporte HTML
 
 ---
 
-## OpenCode Skills
+## OpenCode Skills Ecosystem
 
-This project uses **OpenCode Skills** — reusable instructions that guide the AI agent during development. Skills are loaded on-demand when the agent recognizes a matching task.
+This project uses **OpenCode Skills** — reusable instructions that guide the AI agent during development. Skills are loaded on-demand when OpenCode recognizes a matching task.
 
-### Available Skills
+The ecosystem is organized into **5 categories** with **17 specialized skills** that collaborate to ensure project quality at every level. This is similar to the "Claude Council" concept — a council of specialized skills working together.
+
+### Category 1: Security (Primary Focus)
+
+These skills form a comprehensive security audit layer. They can be invoked individually or orchestrated by `security-review`.
 
 | Skill | Description |
 |-------|-------------|
-| `architecture-review` | Reviews project structure, layering, and design patterns |
-| `code-quality` | Ensures clean code, follows TypeScript/Playwright best practices |
-| `security-review` | Audits for common vulnerabilities (XSS, injection, auth flaws) |
-| `testing-standards` | Enforces testing patterns, Page Object Model, and coverage |
+| `security-review` | **Orchestrator** — Full security audit across all layers |
+| `owasp-top-10` | Checks against OWASP Top 10 (2021) vulnerabilities |
+| `secret-detection` | Detects hardcoded API keys, tokens, passwords, credentials |
+| `secure-config` | Audits CORS, CSP, TLS, headers, authentication config |
+| `dependency-security` | Scans dependencies for known CVEs and vulnerabilities |
+| `auth-security` | Reviews auth flows, RBAC, JWT, session handling |
+
+### Category 2: Architecture & Design
+
+| Skill | Description |
+|-------|-------------|
+| `architecture-review` | Reviews project structure, layering, design patterns |
+| `design-patterns` | Validates pattern usage (POM, Factory, Builder, etc.) |
+
+### Category 3: Code Quality & Review
+
+| Skill | Description |
+|-------|-------------|
+| `code-quality` | Enforces TypeScript strict mode, naming, best practices |
+| `code-review` | Structured code review (correctness, maintainability, perf) |
+| `documentation` | Ensures README, API docs, and operational docs quality |
+| `dependency-management` | Manages versions, lock files, unused deps |
+
+### Category 4: Project Optimization
+
+| Skill | Description |
+|-------|-------------|
+| `project-optimization` | Holistic optimization (build, runtime, DX, code health) |
+| `performance-review` | Test/application performance, flakiness, budgets |
+| `error-handling` | Audits error handling, resilience, retry patterns |
+| `logging-monitoring` | Reviews logging, observability, health endpoints |
+| `ci-cd-optimization` | Optimizes pipeline speed, reliability, security |
+
+### Category 5: Testing Standards
+
+| Skill | Description |
+|-------|-------------|
+| `testing-standards` | Enforces test patterns, naming, edge cases |
+| `api-testing` | Guides API contract, integration, negative testing |
+| `load-testing` | Guides load, stress, spike, soak testing |
 
 ### How Skills Work
 
-Skills live in `.opencode/skills/<name>/SKILL.md` files. When OpenCode detects a relevant task, it automatically loads the skill's instructions. For example, when asked to write tests, the `testing-standards` skill activates and enforces consistent patterns.
+```
+.opencode/skills/<skill-name>/SKILL.md
+```
 
-This is similar to the "Claude Council" concept from Claude Code — a set of specialized skills that collaborate to ensure project quality across architecture, code, security, and testing.
+Each skill is a Markdown file with YAML frontmatter. When you're working on a relevant task, OpenCode discovers and loads the matching skill automatically. You can see available skills in the session — they appear in the skill tool's description.
 
-### Creating Your Own Skills
+**Example workflow with OpenCode:**
+1. You ask: "Review the project structure"
+2. OpenCode detects `architecture-review` skill → loads it
+3. The skill guides OpenCode to check layering, POM, config, CI/CD
+4. You get architecture recommendations
+
+**Orchestrated audit:**
+1. You ask: "Run a full security audit"
+2. `security-review` (orchestrator) loads → delegates to:
+   - `owasp-top-10` → vulnerability checks
+   - `secret-detection` → credential scan
+   - `dependency-security` → CVE audit
+   - `secure-config` → configuration review
+   - `auth-security` → auth flow review
+
+### Creating New Skills
 
 ```bash
-# Create a skill directory
-mkdir -p .opencode/skills/my-skill
+# Create the skill
+mkdir -p .opencode/skills/your-skill-name
 
-# Create the SKILL.md file
-cat > .opencode/skills/my-skill/SKILL.md << 'EOF'
+# Create SKILL.md (name must match directory)
+cat > .opencode/skills/your-skill-name/SKILL.md << 'EOF'
 ---
-name: my-skill
-description: What this skill does
+name: your-skill-name
+description: Brief description for OpenCode to recognize when to load this
 ---
-Your instructions here...
+## What I do
+Describe the skill's purpose and behavior.
+
+## When to use me
+Describe when this skill should be activated.
 EOF
 ```
 
@@ -182,6 +243,17 @@ The GitHub Actions workflow runs tests across Chromium, Firefox, and WebKit on e
 | EN | ES |
 |----|-----|
 | The GitHub Actions workflow runs tests across Chromium, Firefox, and WebKit on every push. Artifacts are uploaded for debugging. | El workflow de GitHub Actions ejecuta pruebas en Chromium, Firefox y WebKit en cada push. Los artefactos se suben para depuración. |
+
+## Skills Ecosystem / Ecosistema de Skills
+
+| EN | ES |
+|----|-----|
+| The project includes **17 OpenCode Skills** organized in 5 categories to ensure code quality, security, architecture, testing, and optimization. Skills are loaded automatically by OpenCode when relevant tasks are detected. | El proyecto incluye **17 Skills de OpenCode** organizadas en 5 categorías para asegurar calidad de código, seguridad, arquitectura, pruebas y optimización. Las skills se cargan automáticamente cuando OpenCode detecta tareas relevantes. |
+| **Security (6 skills):** security-review, owasp-top-10, secret-detection, secure-config, dependency-security, auth-security | **Seguridad (6 skills):** security-review, owasp-top-10, secret-detection, secure-config, dependency-security, auth-security |
+| **Architecture (2):** architecture-review, design-patterns | **Arquitectura (2):** architecture-review, design-patterns |
+| **Code Quality (4):** code-quality, code-review, documentation, dependency-management | **Calidad de Código (4):** code-quality, code-review, documentation, dependency-management |
+| **Optimization (5):** project-optimization, performance-review, error-handling, logging-monitoring, ci-cd-optimization | **Optimización (5):** project-optimization, performance-review, error-handling, logging-monitoring, ci-cd-optimization |
+| **Testing (3):** testing-standards, api-testing, load-testing | **Pruebas (3):** testing-standards, api-testing, load-testing |
 
 ---
 

@@ -1,29 +1,37 @@
 ---
 name: security-review
-description: Audits for common security vulnerabilities in test code and configurations
+description: Orchestrates a full security audit across all project layers
 license: MIT
 compatibility: opencode
 metadata:
-  audience: developers
+  audience: developers, security
   workflow: review
 ---
 
 ## What I do
-- Check for exposed secrets, API keys, or credentials in the codebase
-- Verify `.gitignore` excludes sensitive files (.env, credentials, etc.)
-- Validate that environment variables are used for sensitive data
-- Check that the `.env.example` file doesn't contain real secrets
-- Ensure CI/CD config doesn't expose tokens or keys in logs
-- Review that test data doesn't include real user credentials
-- Verify that network interception tests don't introduce security holes
-- Check that visual snapshots don't capture sensitive information
+Coordinate a comprehensive security review by invoking specialized sub-checks:
+
+1. **Source Code Scan** — Look for hardcoded secrets, injection risks, unsafe patterns
+2. **Dependency Audit** — Check for vulnerable or outdated packages
+3. **Configuration Review** — Audit CORS, CSP, TLS, auth, headers
+4. **Authentication & Authorization** — Verify auth flows, RBAC, session handling
+5. **Data Protection** — Check encryption, PII handling, data exposure
+6. **Infrastructure** — Review Dockerfiles, CI/CD secrets, network config
+7. **Test Coverage** — Ensure security scenarios are tested
+
+### Common vulnerability patterns to flag
+- SQL/NoSQL injection
+- Cross-Site Scripting (XSS)
+- Cross-Site Request Forgery (CSRF)
+- Server-Side Request Forgery (SSRF)
+- Path traversal
+- Insecure deserialization
+- Mass assignment
+- Business logic flaws
 
 ## When to use me
-Use this skill before pushing to a public repository, when adding CI/CD secrets, or when reviewing any code that handles authentication or user data.
+Use this skill as the primary security gate before any release. It orchestrates the full audit and delegates to specialized skills (owasp-top-10, secret-detection, dependency-security, auth-security, secure-config) as needed.
 
-## Key checks
-1. No credentials in source code
-2. `.env` files are gitignored
-3. `.env.example` has placeholder values only
-4. CI secrets are managed through GitHub Secrets, not in workflow files
-5. No internal URLs or service endpoints exposed
+## Output
+For each finding provide: `[SEVERITY] Category — File:line — Description — Recommendation`
+Severities: `CRITICAL`, `HIGH`, `MEDIUM`, `LOW`, `INFO`
