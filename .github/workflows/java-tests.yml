@@ -31,12 +31,25 @@ jobs:
       - name: Run Gatling load test (smoke)
         run: mvn gatling:test -Pload-test -f karate/pom.xml
 
+      - name: Generate Karate Allure report
+        if: always()
+        run: mvn allure:report -f karate/pom.xml
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: karate-reports
-          path: karate/target/surefire-reports/
+          path: |
+            karate/target/surefire-reports/
+            karate/target/karate-reports/
           retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: karate-allure-report
+          path: karate/target/site/allure-maven-plugin/
+          retention-days: 14
 
       - uses: actions/upload-artifact@v4
         if: always()
@@ -62,12 +75,23 @@ jobs:
       - name: Run REST Assured tests
         run: mvn test -f rest-assured/pom.xml
 
+      - name: Generate REST Assured Allure report
+        if: always()
+        run: mvn allure:report -f rest-assured/pom.xml
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: rest-assured-reports
           path: rest-assured/target/surefire-reports/
           retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: rest-assured-allure-report
+          path: rest-assured/target/site/allure-maven-plugin/
+          retention-days: 14
 
   bdd-cucumber:
     name: Cucumber BDD — Selenium WebDriver
@@ -93,9 +117,20 @@ jobs:
       - name: Run Cucumber BDD tests
         run: mvn test -f bdd-cucumber/pom.xml
 
+      - name: Generate BDD Allure report
+        if: always()
+        run: mvn allure:report -f bdd-cucumber/pom.xml
+
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: bdd-cucumber-reports
           path: bdd-cucumber/target/cucumber.html
           retention-days: 7
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: bdd-cucumber-allure-report
+          path: bdd-cucumber/target/site/allure-maven-plugin/
+          retention-days: 14
