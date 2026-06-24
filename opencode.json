@@ -1,0 +1,22 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md", "CONTEXT.md"],
+  "plugin": [
+    "opencode-supermemory",
+    "opencode-dynamic-context-pruning",
+    "opencode-vibeguard",
+    "opencode-notificator"
+  ],
+  "command": {
+    "learn": {
+      "description": "Scan project and update CONTEXT.md for cross-session memory",
+      "template": "Load the project-context skill and execute /learn: scan the project structure, read key files, understand current state, and update CONTEXT.md with everything a future session needs to resume work without re-discovery.",
+      "agent": "plan"
+    },
+    "status": {
+      "description": "Show current project context from CONTEXT.md",
+      "template": "Read CONTEXT.md and summarize the current project state, active tasks, and next steps. If CONTEXT.md doesn't exist, run the /learn command first.",
+      "agent": "plan"
+    }
+  }
+}
