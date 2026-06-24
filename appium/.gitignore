@@ -1,0 +1,6 @@
+target/
+.allure/
+*.log
+apps/*.apk
+apps/*.ipa
+test-output/

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Appium Mobile Tests" parallel="false">
+    <parameter name="appPath" value="${appPath}"/>
+
+    <listeners>
+        <listener class-name="io.qameta.allure.testng.AllureTestNg"/>
+    </listeners>
+
+    <test name="Wikipedia Search Tests">
+        <classes>
+            <class name="com.portfolio.appium.tests.WikipediaSearchTest"/>
+        </classes>
+    </test>
+</suite>
