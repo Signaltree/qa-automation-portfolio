@@ -1,0 +1,27 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "instructions": ["AGENTS.md", "CONTEXT.md"],
+  "plugin": [
+    "opencode-supermemory",
+    "opencode-dynamic-context-pruning",
+    "opencode-vibeguard",
+    "opencode-notificator"
+  ],
+  "command": {
+    "learn": {
+      "description": "Scan project and update .opencode/CONTEXT.md for cross-session memory",
+      "template": "Load the project-context skill and execute /learn: scan the project structure, read key files, understand current state, and update .opencode/CONTEXT.md with everything a future session needs to resume work without re-discovery.",
+      "agent": "plan"
+    },
+    "status": {
+      "description": "Show current project context from .opencode/CONTEXT.md",
+      "template": "Read .opencode/CONTEXT.md and summarize the current project state, active tasks, and next steps. If .opencode/CONTEXT.md doesn't exist, run the /learn command first.",
+      "agent": "plan"
+    },
+    "end-session": {
+      "description": "Save session progress to CONTEXT.md before ending a session",
+      "template": "Load the project-context and session-memory skills. Read the current .opencode/CONTEXT.md, then update it with: what was accomplished this session, what changed (files modified, new files), decisions made, known gotchas discovered, and next steps for the next session. Preserve ALL existing entries. Mark unfinished items clearly. Provide a summary of the final state of this session.",
+      "agent": "plan"
+    }
+  }
+}

@@ -49,3 +49,8 @@ dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
+
+# Old root AI files (moved to .opencode/)
+/AGENTS.md
+/CONTEXT.md
+/opencode.json
