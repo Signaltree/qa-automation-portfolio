@@ -60,3 +60,4 @@ buildNumber.properties
 /AGENTS.md
 /CONTEXT.md
 /opencode.json
+playwright/tests/visual/*.png

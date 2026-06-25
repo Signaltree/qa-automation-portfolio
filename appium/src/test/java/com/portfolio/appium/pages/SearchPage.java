@@ -105,13 +105,6 @@ public class SearchPage extends BasePage {
         }
     }
 
-    public boolean isSearchViewActive() {
-        try {
-            return searchInput.isDisplayed();
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public boolean isFirstResultClickable() {
         if (searchResults.isEmpty()) return false;

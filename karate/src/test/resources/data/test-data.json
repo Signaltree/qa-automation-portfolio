@@ -15,12 +15,4 @@
       "body": ""
     }
   },
-  "user": {
-    "existingIds": [1, 2, 3, 5, 10],
-    "invalidId": 999999
-  },
-  "comment": {
-    "postId": 1,
-    "existingId": 1
-  }
 }

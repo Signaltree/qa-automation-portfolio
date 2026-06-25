@@ -32,9 +32,6 @@ public class CheckoutPage {
         driver.findElement(FINISH_BUTTON).click();
     }
 
-    public String getConfirmationMessage() {
-        return driver.findElement(COMPLETE_HEADER).getText();
-    }
 
     public boolean isOrderComplete() {
         return driver.findElements(COMPLETE_HEADER).size() > 0;
