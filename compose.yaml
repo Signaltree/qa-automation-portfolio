@@ -44,3 +44,35 @@ services:
     volumes:
       - ./:/app
     command: mvn test -Dselenium.remote.url=http://selenium-hub:4444/wd/hub
+
+  playwright-tests:
+    image: mcr.microsoft.com/playwright:v1.49.1-noble
+    container_name: playwright-tests
+    working_dir: /app/playwright
+    volumes:
+      - ./:/app
+    command: npx playwright test
+
+  karate-tests:
+    image: maven:3.9-eclipse-temurin-21
+    container_name: karate-tests
+    working_dir: /app/karate
+    volumes:
+      - ./:/app
+    command: mvn test -pl karate
+
+  rest-assured-tests:
+    image: maven:3.9-eclipse-temurin-21
+    container_name: rest-assured-tests
+    working_dir: /app/rest-assured
+    volumes:
+      - ./:/app
+    command: mvn test
+
+  appium-tests:
+    image: maven:3.9-eclipse-temurin-21
+    container_name: appium-tests
+    working_dir: /app/appium
+    volumes:
+      - ./:/app
+    command: mvn test -DappPath=

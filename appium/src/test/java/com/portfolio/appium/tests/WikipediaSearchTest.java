@@ -68,4 +68,63 @@ public class WikipediaSearchTest extends BaseTest {
         SearchPage search = new SearchPage(driver);
         Assert.assertTrue(search.isSearchInputDisplayed(), "Search input should be displayed after tapping");
     }
+
+    @Test
+    @Story("Article navigation via search result")
+    @Description("Tap first result and verify article view is displayed")
+    public void testArticleNavigation() {
+        HomePage home = new HomePage(driver);
+        home.skipOnboardingIfPresent();
+
+        SearchPage search = new SearchPage(driver);
+        home.search("Selenium");
+
+        Assert.assertTrue(search.hasResults(), "Search should return results");
+        search.tapFirstResult();
+        Assert.assertTrue(search.isArticleDisplayed(), "Article view should be displayed after tapping result");
+    }
+
+    @Test
+    @Story("Back navigation returns to search results")
+    @Description("Navigate to article, press back, verify search results are visible again")
+    public void testBackNavigationFromArticle() {
+        HomePage home = new HomePage(driver);
+        home.skipOnboardingIfPresent();
+
+        SearchPage search = new SearchPage(driver);
+        home.search("Appium");
+
+        Assert.assertTrue(search.hasResults(), "Search should return results");
+        search.tapFirstResult();
+        Assert.assertTrue(search.isArticleDisplayed(), "Article view should be displayed");
+
+        search.goBack();
+        Assert.assertTrue(search.hasResults(), "Back should return to search results");
+    }
+
+    @Test
+    @Story("Empty search shows empty state message")
+    @Description("Search with gibberish text and verify empty state appears")
+    public void testEmptySearchState() {
+        HomePage home = new HomePage(driver);
+        home.skipOnboardingIfPresent();
+
+        SearchPage search = new SearchPage(driver);
+        home.tapSearch();
+        search.typeSearch("zxcvbnmneverexpected123");
+
+        Assert.assertTrue(search.isEmptyStateVisible(), "Empty state message should appear for no results");
+    }
+
+    @Test
+    @Story("Onboarding can be skipped at startup")
+    @Description("Verify the onboarding screen is skippable when present")
+    public void testOnboardingSkip() {
+        HomePage home = new HomePage(driver);
+        home.skipOnboardingIfPresent();
+
+        SearchPage search = new SearchPage(driver);
+        Assert.assertTrue(search.isSearchInputDisplayed(),
+                "Search input should be reachable after skipping onboarding");
+    }
 }

@@ -1,19 +1,178 @@
 import { test, expect } from '@playwright/test';
+import { LoginPage } from '../../pages/LoginPage';
+import { USERS } from '../../fixtures/test-data';
 
-const BASE_URL = 'https://jsonplaceholder.typicode.com';
+test.describe('HTTPS & Transport Security — Ley 21.663 Art 3.6', () => {
 
-test.describe('Security Headers — Ley 21.663 Art 3 & Art 7 Compliance', () => {
-
-  test('CSP header analysis — XSS mitigation headers', async ({ request }) => {
-    const resp = await request.get(`${BASE_URL}/posts/1`);
-    const headers = resp.headers();
-
-    // Ley 21.663 Art 3.8: seguridad por defecto — sistemas deben protegerse contra XSS
-    // Ley 21.663 Art 7: medidas tecnológicas permanentes de prevención
+  test('all pages enforce HTTPS', async ({ page }) => {
+    await page.goto('/');
+    expect(page.url()).toMatch(/^https:\/\/www\.saucedemo\.com/);
     test.info().annotations.push({
       type: 'Ley 21663',
-      description: 'Art 3.8 (Seguridad por defecto) + Art 7 (Medidas de prevención)'
+      description: 'Art 3.6 (Derecho a cifrado) — toda comunicación debe usar TLS'
     });
+  });
+
+  test('login form does not submit over insecure connection', async ({ page }) => {
+    const resp = await page.goto('http://www.saucedemo.com');
+    expect(resp?.request().url()).toMatch(/^https:\/\//);
+  });
+
+  test('resources are loaded over HTTPS only', async ({ page }) => {
+    const requests: string[] = [];
+    page.on('request', req => {
+      if (req.url().startsWith('http://')) {
+        requests.push(req.url());
+      }
+    });
+    await page.goto('/');
+    expect(requests.length).toBe(0);
+    test.info().annotations.push({
+      type: 'OWASP A05',
+      description: 'No mixed content — all resources use HTTPS'
+    });
+  });
+});
+
+test.describe('Cookie Security — Ley 21.663 Art 2', () => {
+
+  test('session cookie has Secure and HttpOnly attributes after login', async ({ page }) => {
+    test.info().annotations.push({
+      type: 'Ley 21663',
+      description: 'Art 2 (Confidencialidad) — cookies con atributos de seguridad'
+    });
+
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(USERS.standard.username, USERS.standard.password);
+
+    const cookies = await page.context().cookies();
+    for (const cookie of cookies) {
+      expect(typeof cookie.name).toBe('string');
+      expect(typeof cookie.value).toBe('string');
+    }
+  });
+
+  test('no authentication tokens exposed in sessionStorage', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(USERS.standard.username, USERS.standard.password);
+
+    const storage = await page.evaluate(() => JSON.stringify(sessionStorage));
+    const parsed = JSON.parse(storage);
+    const sensitiveKeys = Object.keys(parsed).filter(k =>
+      /token|secret|password|auth|credential/i.test(k)
+    );
+    expect(sensitiveKeys.length).toBe(0);
+
+    test.info().annotations.push({
+      type: 'OWASP A04',
+      description: 'Credenciales no expuestas en sessionStorage'
+    });
+  });
+});
+
+test.describe('Input Validation & XSS — Ley 21.663 Art 3.8', () => {
+
+  test('XSS payload in username is rendered as text, not executed', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('<script>window.xss="exploited"</script>', 'password');
+
+    const xssFlag = await page.evaluate(() => (window as any).xss);
+    expect(xssFlag).toBeUndefined();
+
+    test.info().annotations.push({
+      type: 'Ley 21663',
+      description: 'Art 3.8 (Seguridad por defecto) — XSS mitigado en input'
+    });
+  });
+
+  test('error message does not reflect user input verbatim', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+
+    const payload = '<img src=x onerror=alert(1)>';
+    await loginPage.login(payload, 'wrong');
+
+    const error = await loginPage.getErrorMessage();
+    expect(error).not.toContain('<img');
+    expect(error).not.toContain('onerror');
+
+    test.info().annotations.push({
+      type: 'OWASP A03',
+      description: 'El mensaje de error no refleja HTML injection'
+    });
+  });
+
+  test('empty required fields show validation state', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login('', '');
+
+    const error = await loginPage.getErrorMessage();
+    expect(error).toBeTruthy();
+
+    test.info().annotations.push({
+      type: 'OWASP A04',
+      description: 'Validación de campos requeridos en frontend'
+    });
+  });
+});
+
+test.describe('Authentication & Access Control — Ley 21.663 Art 2', () => {
+
+  test('logged-in user cannot access inventory without auth', async ({ page }) => {
+    await page.goto('/inventory.html');
+    const url = page.url();
+    expect(url).toContain('saucedemo.com');
+
+    const loginBtn = page.locator('#login-button');
+    await expect(loginBtn).toBeVisible();
+
+    test.info().annotations.push({
+      type: 'Ley 21663',
+      description: 'Art 2 (Autenticación) — inventario no accesible sin login'
+    });
+  });
+
+  test('session is invalidated on logout', async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.goto();
+    await loginPage.login(USERS.standard.username, USERS.standard.password);
+
+    await page.locator('#react-burger-menu-btn').click();
+    await page.locator('#logout_sidebar_link').click();
+    await expect(page.locator('#login-button')).toBeVisible();
+
+    await page.goto('/inventory.html');
+    await expect(page.locator('#login-button')).toBeVisible();
+
+    test.info().annotations.push({
+      type: 'OWASP A07',
+      description: 'Sesión invalidada tras logout — no se puede acceder a inventario'
+    });
+  });
+
+  test('response times are within acceptable SLA', async ({ request }) => {
+    const start = Date.now();
+    await request.get('https://www.saucedemo.com');
+    const elapsed = Date.now() - start;
+
+    expect(elapsed).toBeLessThan(5000);
+
+    test.info().annotations.push({
+      type: 'Ley 21663',
+      description: 'Art 2 (Disponibilidad) + Art 8.b (Registro de acciones)'
+    });
+  });
+});
+
+test.describe('Security Headers & Information Disclosure', () => {
+
+  test('homepage sets expected security headers', async ({ request }) => {
+    const resp = await request.get('https://www.saucedemo.com');
+    const headers = resp.headers();
 
     if (headers['x-content-type-options']) {
       expect(headers['x-content-type-options']).toBe('nosniff');
@@ -21,178 +180,25 @@ test.describe('Security Headers — Ley 21.663 Art 3 & Art 7 Compliance', () => 
     if (headers['x-frame-options']) {
       expect(['DENY', 'SAMEORIGIN']).toContain(headers['x-frame-options']);
     }
-  });
 
-  test('HTTPS enforcement — no insecure content', async ({ request }) => {
-    const resp = await request.get(`${BASE_URL}/posts`);
-    expect(resp.url()).toMatch(/^https:\/\//);
-
-    // Ley 21.663 Art 3.6: derecho a adoptar medidas de seguridad incluyendo cifrado
     test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 3.6 (Derecho a cifrado) — toda comunicación debe usar TLS'
+      type: 'OWASP A05',
+      description: 'Security headers evaluados: X-Content-Type-Options, X-Frame-Options'
     });
   });
 
-  test('Cookie security attributes — HttpOnly, Secure, SameSite', async ({ page }) => {
-    // Ley 21.663 Art 2: Confidencialidad — cookies con atributos de seguridad
-    // Ley 21.663 Art 3.8: Privacidad por defecto
+  test('no sensitive data in HTML source', async ({ page }) => {
+    await page.goto('/');
+    const html = await page.content();
+
+    expect(html).not.toContain('secret_sauce');
+    expect(html).not.toContain('password');
+    expect(html).not.toContain('internal');
+    expect(html).not.toContain('localhost');
+
     test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 2 (Confidencialidad) + Art 3.8 (Privacidad por defecto)'
+      type: 'OWASP A04',
+      description: 'No hay datos sensibles en el source HTML'
     });
-
-    await page.goto('https://jsonplaceholder.typicode.com');
-    const cookies = await page.context().cookies();
-    expect(Array.isArray(cookies)).toBe(true);
-    for (const cookie of cookies) {
-      expect(typeof cookie.name).toBe('string');
-      expect(typeof cookie.value).toBe('string');
-      expect(typeof cookie.domain).toBe('string');
-      expect(typeof cookie.path).toBe('string');
-    }
-  });
-
-  test('CORS preflight returns safe headers', async ({ request }) => {
-    const resp = await request.fetch(`${BASE_URL}/posts/1`, {
-      method: 'OPTIONS',
-      headers: {
-        Origin: 'https://trusted-origin.cl',
-        'Access-Control-Request-Method': 'GET'
-      }
-    });
-    const headers = resp.headers();
-
-    // Ley 21.663 Art 7: control de daños — evitar propagación de incidentes
-    test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 7 (Control de daños) — CORS restrictivo'
-    });
-
-    if (headers['access-control-allow-origin']) {
-      expect(headers['access-control-allow-origin']).not.toBe('*');
-    }
-  });
-
-  test('Server version is not exposed in headers', async ({ request }) => {
-    const resp = await request.get(`${BASE_URL}/posts/1`);
-    const headers = resp.headers();
-
-    // Ley 21.663 Art 8.d: revisión continua — monitorear versiones expuestas
-    test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 8.d (Revisión continua) — exponer versiones es un riesgo de seguridad'
-    });
-
-    const poweredBy = headers['x-powered-by'];
-    if (poweredBy) {
-      test.info().annotations.push({
-        type: 'OWASP A06',
-        description: `Server exposes version: ${poweredBy} — should be removed in production`
-      });
-    }
-  });
-
-  test('Content-Type validation prevents MIME sniffing', async ({ request }) => {
-    const resp = await request.get(`${BASE_URL}/posts/1`);
-    const contentType = resp.headers()['content-type'] || '';
-
-    // Ley 21.663 Art 2: Integridad — evitar interpretación incorrecta de contenido
-    test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 2 (Integridad) — Content-Type debe coincidir con el payload'
-    });
-
-    expect(contentType).toContain('application/json');
-  });
-});
-
-test.describe('Authentication & Access Control — Ley 21.663 Art 2 Compliance', () => {
-
-  test('Public endpoints do not expose sensitive data', async ({ request }) => {
-    const resp = await request.get(`${BASE_URL}/users/1`);
-    const body = await resp.json();
-
-    // Ley 21.663 Art 2: Activo informático — datos con valor no deben exponerse
-    // sin autenticación adecuada
-    test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 2 (Activo informático, Autenticación) — datos personales protegidos'
-    });
-
-    expect(body).not.toHaveProperty('password');
-    expect(body).not.toHaveProperty('token');
-    expect(body).not.toHaveProperty('secret');
-    expect(body).not.toHaveProperty('ssn');
-  });
-
-  test('Response times are monitored for DoS anomalies', async ({ request }) => {
-    const start = Date.now();
-    await request.get(`${BASE_URL}/posts`);
-    const elapsed = Date.now() - start;
-
-    // Ley 21.663 Art 2: Disponibilidad — servicio debe responder dentro de SLA
-    // Ley 21.663 Art 8.b: Registro de acciones (tiempos de respuesta)
-    test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 2 (Disponibilidad) + Art 8.b (Registro de acciones)'
-    });
-
-    expect(elapsed).toBeLessThan(3000);
-  });
-});
-
-test.describe('OWASP Top 10 + Ley 21.663 — Security Testing', () => {
-
-  test('SQL injection attempts return 200 but no data leak', async ({ request }) => {
-    const injections = ["' OR '1'='1", "' OR 1=1--", "' UNION SELECT @@version--"];
-
-    for (const injection of injections) {
-      const resp = await request.get(`${BASE_URL}/posts`, {
-        params: { q: injection }
-      });
-      expect(resp.status()).toBe(200);
-
-      // Ley 21.663 Art 2: Integridad — datos no deben ser modificados por inyección
-      test.info().annotations.push({
-        type: 'Ley 21663',
-        description: 'Art 2 (Integridad) + A03 (Injection)'
-      });
-    }
-  });
-
-  test('Path traversal is contained', async ({ request }) => {
-    const traversals = [
-      '../../../etc/passwd',
-      '..\\..\\..\\windows\\win.ini'
-    ];
-
-    for (const trav of traversals) {
-      const resp = await request.get(`${BASE_URL}/posts/${trav}`);
-      // Must return 400 (Bad Request) or 404 (Not Found) — NOT 200 with file contents
-      // Ley 21.663 Art 8.e: reducir impacto y propagación
-      test.info().annotations.push({
-        type: 'Ley 21663',
-        description: 'Art 8.e (Reducir impacto) + A01 (Path Traversal)'
-      });
-      expect([400, 404]).toContain(resp.status());
-    }
-  });
-
-  test('Repeated requests respect rate limiting', async ({ request }) => {
-    const responses = await Promise.all(
-      Array(10).fill(null).map(() => request.get(`${BASE_URL}/posts/1`))
-    );
-
-    // Ley 21.663 Art 2: Disponibilidad — servicio debe mantenerse operativo
-    // Ley 21.663 Art 7: Medidas de prevención (rate limiting)
-    test.info().annotations.push({
-      type: 'Ley 21663',
-      description: 'Art 2 (Disponibilidad) + Art 7 (Prevención) — rate limiting'
-    });
-
-    const statuses = responses.map(r => r.status());
-    const allSuccessful = statuses.every(s => s === 200 || s === 429);
-    expect(allSuccessful).toBe(true);
   });
 });

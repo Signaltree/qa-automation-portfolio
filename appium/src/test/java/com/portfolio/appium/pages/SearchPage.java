@@ -23,6 +23,15 @@ public class SearchPage extends BasePage {
     @AndroidFindBy(className = "android.widget.ImageButton")
     private WebElement backButton;
 
+    @AndroidFindBy(id = "org.wikipedia:id/view_page_title_text")
+    private WebElement articleTitle;
+
+    @AndroidFindBy(id = "org.wikipedia:id/page_web_view")
+    private WebElement articleWebView;
+
+    @AndroidFindBy(id = "org.wikipedia:id/search_action_mode_title")
+    private WebElement searchActionTitle;
+
     public SearchPage(AndroidDriver driver) {
         super(driver);
     }
@@ -67,6 +76,47 @@ public class SearchPage extends BasePage {
     public boolean isSearchInputDisplayed() {
         try {
             return searchInput.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isArticleDisplayed() {
+        try {
+            return articleWebView.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String getArticleTitle() {
+        try {
+            return articleTitle.getText();
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    public void goBack() {
+        try {
+            backButton.click();
+        } catch (Exception e) {
+            driver.navigate().back();
+        }
+    }
+
+    public boolean isSearchViewActive() {
+        try {
+            return searchInput.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public boolean isFirstResultClickable() {
+        if (searchResults.isEmpty()) return false;
+        try {
+            return searchResults.get(0).isEnabled();
         } catch (Exception e) {
             return false;
         }
