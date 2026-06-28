@@ -20,6 +20,29 @@
 | Load Simulation | 6 | ✅ 6/6 |
 | Gatling Load | 1 simulation | ✅ Passes |
 
+## Selenium WebDriver (22 tests)
+
+| Category | Tests | Passing |
+|----------|-------|---------|
+| Navigation & Waits | 4 | ✅ |
+| Multi-browser | 3 | ✅ |
+| Advanced Interaction | 4 | ✅ |
+| Windows & Frames | 4 | ✅ |
+| JavaScript | 4 | ✅ |
+| Page Object Model | 3 | ✅ |
+
+## Flutter (7 integration tests)
+
+| Test | Status |
+|------|--------|
+| App renders with title | ✅ |
+| Counter starts at 0 | ✅ |
+| Increment button works | ✅ |
+| Multiple increments | ✅ |
+| Add todo item | ✅ |
+| Toggle todo completion | ✅ |
+| Delete todo item | ✅ |
+
 ## Badges
 
 ```

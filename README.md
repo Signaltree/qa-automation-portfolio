@@ -1,152 +1,172 @@
 # QA Automation Portfolio / Portafolio de Automatización QA
 
-[![Playwright](https://img.shields.io/badge/Playwright-45%20tests-45ba4b?logo=playwright)](playwright/)
-[![Karate](https://img.shields.io/badge/Karate-67%20tests-000?logo=java)](karate/)
-[![Gatling](https://img.shields.io/badge/Gatling-Load%20testing-FFCB28?logo=scala)](karate/)
+[![Landing](https://img.shields.io/badge/Landing-Web-00d4ff)](https://signaltree.github.io/qa-portfolio-landing/)
+[![Playwright](https://img.shields.io/badge/Playwright-38%20tests-45ba4b?logo=playwright)](playwright/)
+[![Karate](https://img.shields.io/badge/Karate-82%20tests-000?logo=java)](karate/)
 [![REST Assured](https://img.shields.io/badge/REST%20Assured-18%20tests-8A2BE2?logo=java)](rest-assured/)
-[![Cucumber](https://img.shields.io/badge/Cucumber-BDD-23D96C?logo=cucumber)](bdd-cucumber/)
-[![Security](https://img.shields.io/badge/Security-OWASP%20%2B%20Ley%2021.663-8B0000)](playwright/tests/security/)
+[![Cucumber BDD](https://img.shields.io/badge/Cucumber-12%20tests-23D96C?logo=cucumber)](bdd-cucumber/)
+[![Appium](https://img.shields.io/badge/Appium-7%20tests-663399?logo=appium)](appium/)
+[![Selenium WebDriver](https://img.shields.io/badge/Selenium-22%20tests-43B02A?logo=selenium)](selenium-webdriver/)
+[![Flutter](https://img.shields.io/badge/Flutter-7%20tests-02569B?logo=flutter)](flutter_app/)
+[![k6](https://img.shields.io/badge/k6-3%20scripts-7D64FF?logo=k6)](performance/k6/)
+[![JMeter](https://img.shields.io/badge/JMeter-2%20plans-D22128?logo=apachejmeter)](performance/jmeter/)
 
-> **Multi-framework QA automation portfolio** demonstrating UI, API, load, security, and BDD testing across 5 frameworks, with AI-assisted development via OpenCode.
-
-> **Portafolio de automatización QA multi-framework** que demuestra pruebas UI, API, carga, seguridad y BDD en 5 frameworks, con desarrollo asistido por IA via OpenCode.
-
----
-
-## Quick Overview / Resumen Rápido
-
-| Framework | Language | Tests | Target | Status |
-|-----------|----------|-------|--------|--------|
-| **Playwright** | TypeScript | 45 (UI + API + Visual + Security) | SauceDemo | ✅ All passing |
-| **Karate** | Java | 67 API + Gatling load | JSONPlaceholder | ✅ All passing |
-| **REST Assured** | Java | 18 API contract | JSONPlaceholder | ✅ All passing |
-| **Cucumber BDD** | Java | 12 Gherkin + Selenium | SauceDemo | ✅ All passing |
+> **186 tests automatizados** en 7 frameworks.  
+> **186 automated tests** across 7 frameworks.  
+> [Ver landing page / View landing page](https://signaltree.github.io/qa-portfolio-landing/)
 
 ---
 
-## What You'll Find / Lo Que Encontrarás
+## Frameworks
 
-### 🎭 [Playwright — Web UI & Visual Testing](playwright/)
-- **Page Object Model** with 4 page classes (Login, Inventory, Cart, Checkout)
-- **Cross-browser**: Chromium, Firefox, WebKit, mobile-Chrome, mobile-Safari
-- **Data-driven**: 6 user types from centralized fixtures
-- **Network interception**: JS bundle modification, CSS blocking, request timing
-- **Visual regression**: Screenshot comparison with 5% diff threshold
-- **CI/CD**: GitHub Actions matrix builds with artifact upload
+| Framework | Lenguaje | Tests | Objetivo | Estado |
+|-----------|----------|-------|----------|--------|
+| **Playwright** | TypeScript | 38 (UI + API + Visual + Accesibilidad + Seguridad) | SauceDemo | ✅ |
+| **Karate** | Java | 82 (API + GraphQL + Seguridad + Contrato) | JSONPlaceholder + Countries API | ✅ |
+| **REST Assured** | Java | 18 (CRUD + Schema + POJO) | JSONPlaceholder | ✅ |
+| **Cucumber BDD** | Java | 12 Gherkin + Selenium | SauceDemo | ✅ |
+| **Appium** | Java | 7 (Mobile + Navegación) | Wikipedia Android | ✅ |
+| **Selenium WebDriver** | Java | 22 (Waits + Multi-browser + Interacción + Frames + JS + POM) | SauceDemo + the-internet | ✅ |
+| **Flutter** | Dart | 7 (integration_test) | App demo (contador + todos) | ✅ |
 
-### 🥋 [Karate — API + Load + Security Testing](karate/)
-- **67 API tests**: CRUD, schema validation, negative testing on JSONPlaceholder
-- **Security**: OWASP Top 10 (XSS, SQLi, JWT tampering, SSRF, XXE, CORS, CSRF) — 14 scenarios
-- **Compliance**: Ley 21.663 (Chilean Cybersecurity Framework) — Art 9 CSIRT contract tests
-- **Load testing**: Gatling 3.9.5 simulation (rampUsers, constantUsersPerSec)
-- **60+ security payloads**: Comprehensive injection payload dataset
-
-### 🧪 [REST Assured — API Contract Testing](rest-assured/)
-- **18 tests**: CRUD, JSON Schema validation, POJO serialization
-- **Hamcrest matchers**: `every`, `hasItem`, `containsString`, `notNullValue`
-- **Same API as Karate** (JSONPlaceholder) — direct framework comparison
-- **Jackson POJOs**: Post, User + nested Address, Geo, Company
-
-### 🥒 [Cucumber BDD — Selenium WebDriver](bdd-cucumber/)
-- **12 Gherkin scenarios**: login, inventory, cart, checkout on SauceDemo
-- **Selenium 4 + WebDriverManager**: ChromeDriver auto-management
-- **Docker-ready**: Remote WebDriver via `-Dselenium.remote.url`
-
-### 🐳 Docker + Selenium Grid
-- `compose.yaml` spins up Hub + Chrome + Firefox nodes
-- BDD tests can run inside container against the Grid
-- `docker compose up` → `mvn test -f bdd-cucumber/pom.xml -Dselenium.remote.url=http://localhost:4444/wd/hub`
-
-### 🤖 [AI-Assisted Development](.opencode/)
-This entire project was built with **OpenCode** — an open-source AI coding agent — using **24 specialized skills** that collaborate like a QA council: architecture review, security auditing, performance review, testing standards, and more.
+### Rendimiento
+| Herramienta | Tests/Planes | Objetivo |
+|-------------|-------------|----------|
+| **k6** | 3 scripts (smoke, load, stress) | SauceDemo + JSONPlaceholder |
+| **JMeter** | 2 planes | SauceDemo page load + JSONPlaceholder API |
 
 ---
 
-## Tech Stack / Stack Tecnológico
+## Lo que incluye
 
-| Area | Technologies |
-|------|--------------|
+### [Playwright](playwright/)
+- Page Object Model con 4 clases (Login, Inventory, Cart, Checkout)
+- Cross-browser: Chromium, Firefox, WebKit, mobile-Chrome, mobile-Safari
+- 6 tipos de usuario desde fixtures centralizados
+- Intercepción de red, regresión visual, accesibilidad (aXe-core)
+- Seguridad: OWASP Top 10, cabeceras HTTP, manejo de sesión
+- CI/CD en GitHub Actions con artefactos
+
+### [Karate](karate/)
+- 82 tests: CRUD, validación de esquemas, GraphQL, pruebas negativas
+- Seguridad: OWASP Top 10 (XSS, SQLi, JWT, SSRF, XXE, CORS)
+- Ley 21.663 (CSIRT): 5 escenarios de contrato
+- GraphQL: 7 escenarios contra Countries API pública
+
+### [REST Assured](rest-assured/)
+- 18 tests: CRUD, validación JSON Schema, serialización POJO
+- Matchers Hamcrest: `everyItem`, `hasItem`, `containsString`
+- Misma API que Karate (JSONPlaceholder) para comparación directa
+
+### [Cucumber BDD](bdd-cucumber/)
+- 12 escenarios Gherkin: login, inventario, carro, checkout
+- Selenium 4 + WebDriverManager
+- ThreadLocal WebDriver para ejecución paralela
+- Ready para Docker con Selenium Grid
+
+### [Appium](appium/)
+- 7 tests mobile: búsqueda, resultados, navegación entre artículos
+- Android + UiAutomator2
+- Pipeline CI con emulador en GitHub Actions
+
+### [Selenium WebDriver](selenium-webdriver/)
+- 22 tests puros de Selenium (sin Cucumber): waits, multi-browser, interacción avanzada, ventanas/frames, JavaScript, POM
+- SauceDemo para POM + the-internet para features avanzados
+- Chrome, Firefox y Edge headless
+
+### [Flutter](flutter_app/)
+- 7 integration tests: renderizado, contador, CRUD de tareas
+- App demo con contador + lista de tareas (toggle, delete)
+- Build analizado sin issues
+
+### [k6](performance/k6/)
+- Smoke test, load test, stress test
+- Ejecución via Docker
+- Umbrales: duración de petición, tasa de fallos
+
+### [JMeter](performance/jmeter/)
+- Plan smoke para SauceDemo (page load + assets)
+- Plan API para JSONPlaceholder (GET/POST)
+- Reportes HTML generados automáticamente
+
+---
+
+## Stack
+
+| Área | Tecnologías |
+|------|-------------|
 | **UI Testing** | Playwright, TypeScript, POM |
-| **API Testing** | Karate (Cucumber-based), REST Assured (Hamcrest) |
-| **Load Testing** | Gatling 3.9.5, Scala 2.13.15 |
-| **Security** | OWASP ZAP-style scanning, Ley 21.663 compliance |
+| **API Testing** | Karate (Cucumber), REST Assured (Hamcrest) |
+| **Mobile** | Appium, UiAutomator2, Android |
+| **Performance** | k6, JMeter |
+| **Security** | OWASP Top 10, aXe-core, Ley 21.663 |
 | **BDD** | Cucumber 7, Selenium 4, Gherkin |
-| **CI/CD** | GitHub Actions (matrix builds + 4 workflows) |
-| **Containerization** | Docker Compose, Selenium Grid |
-| **AI Assistant** | OpenCode with 24 specialized skills |
-| **Languages** | TypeScript, Java 21, Scala, Gherkin |
+| **CI/CD** | GitHub Actions (5 workflows) |
+| **Container** | Docker Compose, Selenium Grid |
+| **Assistant** | OpenCode con 24 skills |
 
 ---
 
-## Quick Start / Inicio Rápido
+## Inicio rápido
 
 ```bash
-# Playwright tests
+# Playwright
 npm install
 npx playwright install chromium
 npm test
 
-# Karate API tests
-cd karate
-mvn test
+# Karate
+cd karate && mvn test
 
-# Karate load tests
-mvn gatling:test -Pload-test
+# REST Assured
+cd rest-assured && mvn test
+
+# BDD Cucumber
+cd bdd-cucumber && mvn test
+
+# Appium
+cd appium && mvn test
+
+# Selenium WebDriver
+cd selenium-webdriver && mvn test
+
+# Flutter
+cd flutter_app && flutter test
+
+# k6 (via Docker)
+npm run test:k6:smoke
+
+# JMeter
+npm run test:jmeter
 ```
 
 ---
 
-## Project Structure / Estructura del Proyecto
+## Resultados
 
-```
-qa-automation-portfolio/
-├── playwright/          # 45 tests — UI, API interception, Visual, Security
-├── karate/              # 67 API tests + Gatling load simulation
-├── rest-assured/        # 18 API contract tests
-├── bdd-cucumber/        # 12 Cucumber BDD + Selenium scenarios
-├── docs/                # Architecture & CI/CD documentation
-├── .github/workflows/   # 3 CI/CD pipelines (Playwright + Java + Docker)
-├── compose.yaml         # Selenium Grid with Hub + Chrome + Firefox
-├── .opencode/           # OpenCode AI skills & configuration
-└── README.md            # You are here 📍
-```
-
----
-
-## Test Results / Resultados de Pruebas
-
-| Suite | Count | Status |
+| Suite | Tests | Estado |
 |-------|-------|--------|
-| Playwright UI | ~25 | ✅ |
-| Playwright Security | 11 (×2 browsers) | ✅ |
-| Playwright Visual | ~5 | ✅ |
-| Playwright API | ~4 | ✅ |
-| Karate API | 43 REST + 14 Security + 5 CSIRT + 6 Load | ✅ |
-| Gatling Load | 6 scenarios | ✅ |
-| REST Assured | 18 (CRUD + Schema + POJO) | ✅ |
-| Cucumber BDD | 12 (Gherkin + Selenium) | ✅ |
-| **Total** | **~135+** | ✅ |
-
-Detailed results: [TEST-RESULTS.md](TEST-RESULTS.md)
-
----
-
-## Key Features / Características Clave
-
-- ✅ **Multi-framework**: 5 testing frameworks demonstrating breadth
-- ✅ **Real targets**: SauceDemo, JSONPlaceholder (not toy apps)
-- ✅ **Security-first**: OWASP Top 10 + Chilean cybersecurity law compliance
-- ✅ **AI-assisted**: Built with OpenCode — 24 skills, test-driven development
-- ✅ **CI/CD ready**: GitHub Actions with matrix builds and artifact upload
-- ✅ **Bilingual**: English + Spanish documentation
-- ✅ **Clean code**: POM, data-driven, centralized fixtures, no hardcoded values
+| Playwright UI | 12 | ✅ |
+| Playwright Security | 7 | ✅ |
+| Playwright Visual | 8 | ✅ |
+| Playwright API | 8 | ✅ |
+| Playwright Accesibilidad | 3 | ✅ |
+| Karate API | 82 | ✅ |
+| REST Assured | 18 | ✅ |
+| Cucumber BDD | 12 | ✅ |
+| Appium | 7 | ✅ |
+| Selenium WebDriver | 22 | ✅ |
+| Flutter | 7 | ✅ |
+| k6 | 3 scripts | ✅ |
+| JMeter | 2 plans | ✅ |
+| **Total** | **186** | ✅ |
 
 ---
 
-## License
+## Licencia
 
-MIT — see [LICENSE](LICENSE)
+MIT — ver [LICENSE](LICENSE)
 
 ---
 
-*Built with [OpenCode](https://opencode.ai) — the open source AI coding agent.*
+[Landing page](https://signaltree.github.io/qa-portfolio-landing/) · [OpenCode](https://opencode.ai)
