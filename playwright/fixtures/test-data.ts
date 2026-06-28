@@ -1,10 +1,10 @@
 export const USERS = {
-  standard: { username: 'standard_user', password: 'secret_sauce' },
-  lockedOut: { username: 'locked_out_user', password: 'secret_sauce' },
-  problem: { username: 'problem_user', password: 'secret_sauce' },
-  performanceGlitch: { username: 'performance_glitch_user', password: 'secret_sauce' },
-  error: { username: 'error_user', password: 'secret_sauce' },
-  visual: { username: 'visual_user', password: 'secret_sauce' },
+  standard: { username: process.env.STANDARD_USER || 'standard_user', password: process.env.PASSWORD || 'secret_sauce' },
+  lockedOut: { username: process.env.LOCKED_OUT_USER || 'locked_out_user', password: process.env.PASSWORD || 'secret_sauce' },
+  problem: { username: process.env.PROBLEM_USER || 'problem_user', password: process.env.PASSWORD || 'secret_sauce' },
+  performanceGlitch: { username: process.env.PERFORMANCE_GLITCH_USER || 'performance_glitch_user', password: process.env.PASSWORD || 'secret_sauce' },
+  error: { username: process.env.ERROR_USER || 'error_user', password: process.env.PASSWORD || 'secret_sauce' },
+  visual: { username: process.env.VISUAL_USER || 'visual_user', password: process.env.PASSWORD || 'secret_sauce' },
 } as const;
 
 export const INVENTORY_ITEMS = [

@@ -13,7 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Hooks {
-    private static WebDriver driver;
+    private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private static final String CHROME_PATH = findChromeBinary();
     private static final String REMOTE_URL = System.getProperty("selenium.remote.url");
 
@@ -34,14 +34,37 @@ public class Hooks {
     }
 
     @Before
-    public void setUp() throws Exception {
-        if (driver != null) return;
+    public void setUp() {
+        getDriver();
+    }
 
+    @After
+    public void tearDown() {
+        var d = driver.get();
+        if (d != null) {
+            d.quit();
+            driver.remove();
+        }
+    }
+
+    public static WebDriver getDriver() {
+        var d = driver.get();
+        if (d == null) {
+            d = createDriver();
+            driver.set(d);
+        }
+        return d;
+    }
+
+    private static WebDriver createDriver() {
         if (REMOTE_URL != null) {
-            var options = new ChromeOptions();
-            options.addArguments("--headless=new");
-            driver = new RemoteWebDriver(new URL(REMOTE_URL), options);
-            return;
+            try {
+                var options = new ChromeOptions();
+                options.addArguments("--headless=new");
+                return new RemoteWebDriver(new URL(REMOTE_URL), options);
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to create remote driver", e);
+            }
         }
 
         if (CHROME_PATH == null) {
@@ -55,18 +78,6 @@ public class Hooks {
         options.addArguments("--no-sandbox");
         options.addArguments("--disable-dev-shm-usage");
         options.addArguments("--window-size=1920,1080");
-        driver = new ChromeDriver(options);
-    }
-
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-            driver = null;
-        }
-    }
-
-    public static WebDriver getDriver() {
-        return driver;
+        return new ChromeDriver(options);
     }
 }

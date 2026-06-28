@@ -50,6 +50,9 @@ buildNumber.properties
 .mvn/timing.properties
 .mvn/wrapper/maven-wrapper.jar
 
+# JMeter (auto-downloaded by jmeter-maven-plugin)
+performance/jmeter/target/
+
 # Allure CLI downloads (auto-downloaded by allure-maven plugin)
 .allure/
 
@@ -61,3 +64,9 @@ buildNumber.properties
 /CONTEXT.md
 /opencode.json
 playwright/tests/visual/*.png
+
+# k6 reports
+performance/k6/reports/
+
+# AI session memory (not project code)
+.opencode/memory/

@@ -68,6 +68,20 @@ mvn clean test -DappPath=/ruta/a/wikipedia.apk
 mvn allure:serve
 ```
 
+## CI Pipeline
+
+Los tests mobile corren en GitHub Actions via `reactivecircus/android-emulator-runner`:
+
+1. Inicia emulador Android API 34 (x86_64, Google APIs)
+2. Instala Appium Server + UiAutomator2 driver
+3. Descarga Wikipedia APK desde releases oficiales
+4. Instala APK en el emulador via ADB
+5. Ejecuta `mvn test` con `-DappPath`
+6. Sube resultados como artifact
+
+**Workflow**: `.github/workflows/appium.yml`
+**Trigger**: pushes/PRs que modifiquen `appium/`
+
 ## Estructura
 
 ```

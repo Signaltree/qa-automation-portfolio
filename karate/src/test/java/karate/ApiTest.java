@@ -30,6 +30,11 @@ class ApiTest {
     }
 
     @Karate.Test
+    Karate testGraphQL() {
+        return Karate.run("classpath:features/api/graphql.feature").relativeTo(getClass());
+    }
+
+    @Karate.Test
     Karate testAll() {
         return Karate.run("classpath:features/api").relativeTo(getClass());
     }

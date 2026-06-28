@@ -16,7 +16,13 @@
     "test:update-snapshots": "npx playwright test --update-snapshots",
     "report": "npx playwright show-report",
     "codegen": "npx playwright codegen",
-    "lint": "npx tsc --noEmit"
+    "lint": "npx tsc --noEmit",
+    "test:jmeter": "mvn verify -f performance/jmeter/pom.xml",
+    "test:k6:smoke": "docker run --rm -v $(pwd)/performance/k6:/scripts grafana/k6 run /scripts/smoke-test.js",
+    "test:k6:load": "docker run --rm -v $(pwd)/performance/k6:/scripts grafana/k6 run /scripts/load-test.js",
+    "test:k6:stress": "docker run --rm -v $(pwd)/performance/k6:/scripts grafana/k6 run /scripts/stress-test.js",
+    "test:k6:all": "npm run test:k6:smoke && npm run test:k6:load && npm run test:k6:stress",
+    "test:appium": "cd appium && mvn clean test -DappPath=../app/build/wikipedia.apk"
   },
   "repository": {
     "type": "git",
@@ -31,8 +37,9 @@
   },
   "homepage": "https://github.com/Signaltree/qa-automation-portfolio#readme",
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@playwright/test": "^1.61.1",
-    "@types/node": "^26.0.0",
+    "@types/node": "^26.0.1",
     "playwright": "^1.61.1",
     "typescript": "^6.0.3"
   }
