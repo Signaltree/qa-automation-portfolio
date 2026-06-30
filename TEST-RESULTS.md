@@ -31,6 +31,17 @@
 | JavaScript | 4 | ✅ |
 | Page Object Model | 3 | ✅ |
 
+## Cypress (19 tests)
+
+| Spec | Tests | Passing |
+|------|-------|---------|
+| login.cy.js | 3 | ✅ 3/3 |
+| inventory.cy.js | 4 | ✅ 4/4 |
+| cart.cy.js | 4 | ✅ 4/4 |
+| checkout.cy.js | 4 | ✅ 4/4 |
+| burger-menu.cy.js | 2 | ✅ 2/2 |
+| error-states.cy.js | 2 | ✅ 2/2 |
+
 ## Flutter (7 integration tests)
 
 | Test | Status |

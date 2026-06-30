@@ -7,12 +7,13 @@
 [![Cucumber BDD](https://img.shields.io/badge/Cucumber-12%20tests-23D96C?logo=cucumber)](bdd-cucumber/)
 [![Appium](https://img.shields.io/badge/Appium-7%20tests-663399?logo=appium)](appium/)
 [![Selenium WebDriver](https://img.shields.io/badge/Selenium-22%20tests-43B02A?logo=selenium)](selenium-webdriver/)
+[![Cypress](https://img.shields.io/badge/Cypress-19%20tests-0F52BA?logo=cypress)](cypress/)
 [![Flutter](https://img.shields.io/badge/Flutter-7%20tests-02569B?logo=flutter)](flutter_app/)
 [![k6](https://img.shields.io/badge/k6-3%20scripts-7D64FF?logo=k6)](performance/k6/)
 [![JMeter](https://img.shields.io/badge/JMeter-2%20plans-D22128?logo=apachejmeter)](performance/jmeter/)
 
-> **186 tests automatizados** en 7 frameworks.  
-> **186 automated tests** across 7 frameworks.  
+> **205 tests automatizados** en 8 frameworks.  
+> **205 automated tests** across 8 frameworks.  
 > [Ver landing page / View landing page](https://signaltree.github.io/qa-portfolio-landing/)
 
 ---
@@ -27,6 +28,7 @@
 | **Cucumber BDD** | Java | 12 Gherkin + Selenium | SauceDemo | ✅ |
 | **Appium** | Java | 7 (Mobile + Navegación) | Wikipedia Android | ✅ |
 | **Selenium WebDriver** | Java | 22 (Waits + Multi-browser + Interacción + Frames + JS + POM) | SauceDemo + the-internet | ✅ |
+| **Cypress** | JavaScript | 19 (E2E) | SauceDemo | ✅ |
 | **Flutter** | Dart | 7 (integration_test) | App demo (contador + todos) | ✅ |
 
 ### Rendimiento
@@ -74,6 +76,13 @@
 - SauceDemo para POM + the-internet para features avanzados
 - Chrome, Firefox y Edge headless
 
+### [Cypress](cypress/)
+- 19 tests E2E sobre SauceDemo: login, inventario, carro, checkout, menú lateral, estados de error
+- Custom commands: `cy.login()`, `cy.addToCart()`, `cy.checkCartBadge()`
+- Retry-ability nativa + espera automática sin sleeps explícitos
+- 6 spec files con `beforeEach` centralizado
+- CI/CD en GitHub Actions
+
 ### [Flutter](flutter_app/)
 - 7 integration tests: renderizado, contador, CRUD de tareas
 - App demo con contador + lista de tareas (toggle, delete)
@@ -95,7 +104,7 @@
 
 | Área | Tecnologías |
 |------|-------------|
-| **UI Testing** | Playwright, TypeScript, POM |
+| **UI Testing** | Playwright, Cypress, Selenium, TypeScript, JavaScript, POM |
 | **API Testing** | Karate (Cucumber), REST Assured (Hamcrest) |
 | **Mobile** | Appium, UiAutomator2, Android |
 | **Performance** | k6, JMeter |
@@ -130,6 +139,9 @@ cd appium && mvn test
 # Selenium WebDriver
 cd selenium-webdriver && mvn test
 
+# Cypress
+npm run test:cypress:run
+
 # Flutter
 cd flutter_app && flutter test
 
@@ -157,9 +169,10 @@ npm run test:jmeter
 | Appium | 7 | ✅ |
 | Selenium WebDriver | 22 | ✅ |
 | Flutter | 7 | ✅ |
+| Cypress E2E | 19 | ✅ |
 | k6 | 3 scripts | ✅ |
 | JMeter | 2 plans | ✅ |
-| **Total** | **186** | ✅ |
+| **Total** | **205** | ✅ |
 
 ---
 

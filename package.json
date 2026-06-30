@@ -24,7 +24,9 @@
     "test:k6:all": "npm run test:k6:smoke && npm run test:k6:load && npm run test:k6:stress",
     "test:selenium": "cd selenium-webdriver && mvn clean test",
     "test:flutter": "export PATH=\"$PATH:/opt/flutter/bin\" && cd flutter_app && flutter test",
-    "test:appium": "cd appium && mvn clean test -DappPath=../app/build/wikipedia.apk"
+    "test:appium": "cd appium && mvn clean test -DappPath=../app/build/wikipedia.apk",
+    "test:cypress:open": "npx cypress open",
+    "test:cypress:run": "npx cypress run"
   },
   "repository": {
     "type": "git",
@@ -43,6 +45,7 @@
     "@playwright/test": "^1.61.1",
     "@types/node": "^26.0.1",
     "playwright": "^1.61.1",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "cypress": "^14.2.1"
   }
 }

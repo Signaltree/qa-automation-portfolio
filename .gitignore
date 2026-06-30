@@ -4,6 +4,10 @@ node_modules/
 # Playwright output
 playwright-report/
 test-results/
+
+# Cypress output
+cypress/screenshots/
+cypress/videos/
 test-results.json
 allure-results/
 

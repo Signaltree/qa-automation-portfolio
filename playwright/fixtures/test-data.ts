@@ -1,10 +1,13 @@
+const pw = process.env.PASSWORD
+if (!pw) throw new Error('PASSWORD env var required')
+
 export const USERS = {
-  standard: { username: process.env.STANDARD_USER || 'standard_user', password: process.env.PASSWORD || 'secret_sauce' },
-  lockedOut: { username: process.env.LOCKED_OUT_USER || 'locked_out_user', password: process.env.PASSWORD || 'secret_sauce' },
-  problem: { username: process.env.PROBLEM_USER || 'problem_user', password: process.env.PASSWORD || 'secret_sauce' },
-  performanceGlitch: { username: process.env.PERFORMANCE_GLITCH_USER || 'performance_glitch_user', password: process.env.PASSWORD || 'secret_sauce' },
-  error: { username: process.env.ERROR_USER || 'error_user', password: process.env.PASSWORD || 'secret_sauce' },
-  visual: { username: process.env.VISUAL_USER || 'visual_user', password: process.env.PASSWORD || 'secret_sauce' },
+  standard: { username: process.env.STANDARD_USER || 'standard_user', password: pw },
+  lockedOut: { username: process.env.LOCKED_OUT_USER || 'locked_out_user', password: pw },
+  problem: { username: process.env.PROBLEM_USER || 'problem_user', password: pw },
+  performanceGlitch: { username: process.env.PERFORMANCE_GLITCH_USER || 'performance_glitch_user', password: pw },
+  error: { username: process.env.ERROR_USER || 'error_user', password: pw },
+  visual: { username: process.env.VISUAL_USER || 'visual_user', password: pw },
 } as const;
 
 export const INVENTORY_ITEMS = [
